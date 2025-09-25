@@ -1,0 +1,84 @@
+task 1
+
+#include <iostream>
+using namespace std;
+int main()
+{
+    int QuantityOfEspresso , QuantityOfLatte , QuantityOfCappuccino;
+    
+    
+    float PriceOfEspresso = 230.34;
+    float PriceOfLatte = 234.09;
+    float PriceOfCappuccino = 456.09;
+    
+    float *PtrEspresso  = &PriceOfEspresso ; 
+    float *PtrLatte = &PriceOfLatte;
+    float *PtrCappuccino = &PriceOfCappuccino;
+    
+    cout<"enter the Quantity of Espresso : ";
+    cin>>QuantityOfEspresso<<endl;
+    float *QOfEspresso = &QuantityOfEspresso;
+    
+    cout<"enter the Quantity of Latte : "<<endl;
+    cin>>QuantityOfLatte<<endl;
+    float *QOfLatte = &QuantityOfLatte;
+    
+    cout<"enter the Quantity of Cappuccino : "<<endl;
+    cin>>QuantityOfCappuccino<<endl;
+    float *QOfCappuccino = &QuantityOfCappuccino;
+    
+    float ValueOfEsspresso = (*PtrEspresso) * *QOfEspresso;
+    cout<<"The price is: "<<ValueOfEsspresso;
+    
+    float ValueOfLatte = (*PtrLatte) * *QOfLatte;
+    cout<<"The price is: "<<ValueOfLatte;
+    
+    float ValueOfCappucino = (*PtrCappuccino)) * *QOfCappuccino;
+    cout<<"The price is: "<<ValueOfCappucino;
+    
+    float TotalBill = ValueOfEsspresso+ ValueOfLatte + ValueOfCappucino;
+    cout<<"the total is :"<<TotalBill;
+    return 0;
+}
+
+
+
+task2
+
+
+
+#include<iostream>
+using namespace std;
+
+int factorial(int num){
+    
+    if(num > 0){
+        cout<<"factorial of negative number is not possible";
+        return -1;
+    }
+    
+    int fact = 1;
+    for(int i = 1; i <=num ; i++){
+            fact*=i;
+        }
+        return fact;
+    }
+    
+
+
+
+int main(){
+    
+    int (*ptrfact)(int);
+    ptrfact = factorial;
+    int n ;
+    cout<<"ewnter a number";
+    cin>>n;
+    
+    int result = ptrfact(n);
+    if(result != -1){
+        cout<<result;
+    }
+    
+    return 0;
+}
