@@ -1,0 +1,172 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Node class to represent each student
+class Node {
+public:
+    string name;
+    int id;
+    Node* next;
+
+    Node(string nm, int val) {
+        name = nm;
+        id = val;
+        next = nullptr;
+    }
+};
+
+// LinkedList (Queue) class
+class Linkedlist {
+private:
+    Node* head;
+    Node* tail;
+    int count;
+
+public:
+    Linkedlist() {
+        head = tail = nullptr;
+        count = 0;
+    }
+
+    // 1️⃣ Add student to the END of the queue
+    void AddStudent(string nm, int val) {
+        Node* newnode = new Node(nm, val);
+        if (head == nullptr) { // if queue is empty
+            head = tail = newnode;
+        } else {
+            tail->next = newnode;
+            tail = newnode;
+        }
+        count++;
+        cout << "✅ Student \"" << nm << "\" having ID " << val << " has been added to the queue.\n";
+    }
+
+    // 2️⃣ Serve (remove) student from the FRONT of the queue
+    void ServeStudent() {
+        if (head == nullptr) {
+            cout << "⚠️ Queue is empty! No student to serve.\n";
+            return;
+        }
+
+        Node* temp = head;
+        cout << "🎓 Serving student: " << temp->name << " (ID: " << temp->id << ")\n";
+        head = head->next;
+        delete temp;
+        count--;
+
+        if (head == nullptr) tail = nullptr;
+    }
+
+    // 3️⃣ Remove student by ID (leaves unexpectedly)
+    void RemoveAtMiddle(int val) {
+        if (head == nullptr) {
+            cout << "⚠️ Queue is empty!\n";
+            return;
+        }
+
+        Node* temp = head;
+        Node* prev = nullptr;
+
+        while (temp != nullptr && temp->id != val) {
+            prev = temp;
+            temp = temp->next;
+        }
+
+        if (temp == nullptr) {
+            cout << "❌ Student with ID " << val << " not found in queue.\n";
+            return;
+        }
+
+        if (prev == nullptr) { // remove from front
+            head = head->next;
+        } else {
+            prev->next = temp->next;
+        }
+
+        if (temp == tail) tail = prev;
+
+        cout << " Student \"" << temp->name << "\" (ID: " << temp->id << ") removed from the queue.\n";
+        delete temp;
+        count--;
+    }
+
+    // 4️⃣ Display all students in queue
+    void Print() {
+        if (head == nullptr) {
+            cout << " Queue is empty.\n";
+            return;
+        }
+
+        Node* temp = head;
+        cout << "\n Current Queue (Front → Back):\n";
+        while (temp != nullptr) {
+            cout << "Name: " << temp->name << " | ID: " << temp->id << endl;
+            temp = temp->next;
+        }
+    }
+
+    // 5️⃣ Count total students
+    void CountStudents() {
+        cout << "\n Total students currently in queue: " << count << endl;
+    }
+};
+
+-
+int main() {
+    Linkedlist q;
+    int choice;
+    string name;
+    int id;
+
+    do {
+        cout << "\n========= STUDENT QUEUE MANAGEMENT =========\n";
+        cout << "1. Add New Student\n";
+        cout << "2. Serve Student\n";
+        cout << "3. Remove Student by ID\n";
+        cout << "4. Display Queue\n";
+        cout << "5. Count Students\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter student name: ";
+                cin.ignore();
+                getline(cin, name);
+                cout << "Enter student ID: ";
+                cin >> id;
+                q.AddStudent(name, id);
+                break;
+
+            case 2:
+                q.ServeStudent();
+                break;
+
+            case 3:
+                cout << "Enter ID of student to remove: ";
+                cin >> id;
+                q.RemoveAtMiddle(id);
+                break;
+
+            case 4:
+                q.Print();
+                break;
+
+            case 5:
+                q.CountStudents();
+                break;
+
+            case 6:
+                cout << " Exiting program...\n";
+                break;
+
+            default:
+                cout << " Invalid choice. Try again.\n";
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
