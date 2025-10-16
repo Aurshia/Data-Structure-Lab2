@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+class Node{
+	public:
+	string data;
+	Node* next;
+	Node* prev;
+	Node(string name){
+		data = name;
+		next = nullptr;
+		prev = nullptr;
+}
+};
+class DoublyLinkedList{
+	public:
+		Node* head;
+		Node* tail;
+		DoublyLinkedList(){
+			head = tail = nullptr;
+		}
+		void InsertAtEnd(string name ){
+		
+         Node* newnode = new Node(name);
+			if(head == nullptr){
+				head = tail = newnode;
+					
+			}
+			else{
+				tail->next = newnode;
+				newnode->prev = tail;
+				tail = newnode;
+			}
+			
+			
+			
+		}
+		
+		void displaying(){
+			Node* temp = head;
+			if(head == nullptr){
+				cout<<"the head is empty";
+				return;
+			}
+			while(temp!= nullptr){
+				cout<<temp->data;
+				temp = temp->next;
+			}
+		}
+};
+int main(int argc, char** argv) {
+	DoublyLinkedList dll();
+	
+	string ips =" 192.168.1.10,10.0.0.5,172.16.0.1,203.0.113.5,198.51.100.23,8.8.8.8,8.8.4.4,192.0.2.45,10.10.10.10,172.20.14.2,52.214.10.7,34.102.136.180,185.199.108.153,13.35.66.1,44.240.20.10";
+	stringstream ss(ips);
+	string ip;
+	while(getline(ss , ip , ',')){
+	     	dll.InsertAtEnd(ip);
+	}
+	cout<<"the list of ip idresses are: ";
+	dll.displaying();
+	return 0;
+}
