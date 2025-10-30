@@ -1,0 +1,133 @@
+#include<iostream>
+using namespace std;
+class Node{
+    public:
+        int patientid;
+        Node * next;
+        Node * prev;
+        Node(int id){
+            patientid = id;
+            next = prev= nullptr;
+        }
+};
+class ER{
+    public:
+        Node * head;
+        Node * tail;
+        ER(){
+            head = tail = nullptr;
+        }
+        bool isempty(){
+            if(head == nullptr){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        
+        void insertatend(int id){
+            Node * newnode = new Node(id);
+            if(isempty()){
+                head = tail = newnode; 
+            }    
+            else{
+                tail->next = newnode;
+                newnode->prev = tail;
+                tail = newnode;
+            }
+        }
+        void deleteatbeginning(){
+            if(isempty()){
+                cout<<"the queeu is empty";
+                return;
+            } 
+            if(head == tail){
+                delete head;
+                head = tail = nullptr;
+                return;
+            }
+            
+            else{
+                Node * temp = head;
+                head = head->next;
+                head->prev = nullptr;
+                delete temp;
+            }
+        }
+        void insertatstart(int id){
+            char camebyambulance;
+            cout<<"does the patient came by ambulance? (y/n)";
+            cin>>camebyambulance;
+            Node * newnode = new Node(id);
+            if(isempty()){
+                if(camebyambulance == 'y'){
+                    head = tail = newnode;
+                }
+                else{
+                    delete newnode;
+                }
+                return;
+            }
+           
+            if(camebyambulance == 'y'){
+                newnode->next = head;
+                head->prev = newnode;
+                head = newnode;
+            }
+            else{
+                delete newnode;
+            }
+        }
+        void insertatposition(int id , int pos){
+            if(isempty()){
+                cout<<"The list is empty";
+                return;
+            }
+            int length = 0;
+            Node * temp = head;
+            while(temp != nullptr){
+                length++;
+                temp = temp->next;
+            }
+            if(pos<=1){
+                insertatstart(id);
+                return;
+            }
+            if(pos>length){
+                insertatend(id);
+                return;
+            }
+            Node * newnode = new Node(id);
+            Node * curr = head;
+            for(int i = 1 ; i<(pos-1) ; i++){
+                curr = curr->next;
+            }
+            newnode->next = curr->next;
+            curr->next->prev = newnode;
+            newnode->prev = curr;
+            curr->next = newnode;
+        }
+        void display(){
+            if(isempty()){
+                cout<<"The list is empty";
+                return;
+            }
+            Node * temp = head;
+            while(temp != nullptr){
+                cout<<temp->patientid<<" ";
+                temp = temp->next;
+            }
+            cout<<endl;
+        }
+};
+int main(){
+    ER er;
+    er.insertatend(101);
+    er.insertatend(102);
+    er.insertatstart(200);
+    er.insertatposition(150 ,2);
+    er.deleteatbeginning();
+    er.insertatend(300);
+    er.display();
+}
