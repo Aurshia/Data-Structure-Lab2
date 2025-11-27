@@ -1,0 +1,86 @@
+#include <iostream>
+using namespace std;
+
+class Queue {
+public:
+    int arr[20];
+    int front;
+    int rear;
+    int size;
+    int capacity;
+
+    Queue() {
+        front = 0;
+        rear = -1;
+        size = 0;
+        capacity = 20;
+    }
+
+    bool isEmpty() {
+        return size == 0;
+    }
+
+    bool isFull() {
+        return size == capacity;
+    }
+
+    void enqueue(int x) {
+        if (isFull()) {
+            return;
+        }
+        rear = (rear + 1) % capacity;
+        arr[rear] = x;
+        size++;
+    }
+
+    int dequeue() {
+        if (isEmpty()) {
+            return -1;
+        }
+        int val = arr[front];
+        front = (front + 1) % capacity;
+        size--;
+        return val;
+    }
+};
+
+int main() {
+    Queue magazine;
+    int totalbullets = 100;
+    int fired = 0;
+
+    for (int i = 0; i < 20; i++) {
+        magazine.enqueue(1);
+        totalbullets--;
+    }
+
+    cout << "Started firing:\n";
+
+    while (fired < 100) {
+        if (magazine.isEmpty()) {
+            if (totalbullets == 0) {
+                cout << "No more bullets left!" << endl;
+                break;
+            }
+
+            cout << "Magazine empty! Reloading...\n";
+
+            int loadCount = min(20, totalbullets);
+            for (int i = 0; i < loadCount; i++) {
+                magazine.enqueue(1);
+            }
+            totalbullets -= loadCount;
+
+            cout << "Reloaded " << loadCount 
+                 << " bullets. Bullets left: " << totalbullets << endl;
+        }
+
+        magazine.dequeue();
+        fired++;
+
+        cout << "Fired bullet #" << fired << endl;
+    }
+
+    cout << "\nTotal bullets fired: " << fired << endl;
+    return 0;
+}
